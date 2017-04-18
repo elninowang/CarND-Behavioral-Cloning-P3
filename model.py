@@ -4,16 +4,13 @@ import cv2
 import numpy as np
 
 #dir = '/home/jidou/Data/sim_linux/sim_linux_Data/el1'
-dir = '/home/jidou/Data/udacity/data'
+dir = '/home/jidou/Data/udacity/data'       #the dir of the training data
 
 lines = []
 with open(os.path.join(dir,'driving_log.csv')) as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         lines.append(line)
-
-i = 0
-max_line = 300000
 
 n_count_left = 0
 n_count_right = 0
@@ -55,9 +52,6 @@ for line in lines[1:]:
     else:
         images.append(cv2.flip(image_center, 1))
         measurements.append(-steering_center)
-
-    i += 1
-    if i > max_line: break
 
 assert(len(images)==len(measurements))
 print("training data length = {}".format(len(images)))
