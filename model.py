@@ -2,6 +2,7 @@ import os
 import csv
 import cv2
 import numpy as np
+import random
 
 #dir = '/home/jidou/Data/sim_linux/sim_linux_Data/el1'
 dir = '/home/jidou/Data/udacity/data'       #the dir of the training data
@@ -24,9 +25,7 @@ for line in lines[1:]:
     image_center = cv2.imread(image_center_path)
     image_left = cv2.imread(image_left_path)
     image_right = cv2.imread(image_right_path)
-    if image_center is None or image_left is None or image_right is None:
-        print("{}   {}  {}".format(image_center_path, image_left_path, image_right_path))
-        continue
+    if image_center is None or image_left is None or image_right is None: continue
     correction = 0.2
     steering_center = float(line[3])
     steering_left = steering_center + correction
@@ -43,9 +42,6 @@ for line in lines[1:]:
         images.append(image_left)
         measurements.append(steering_left)
     elif steering_center < -0.15:
-        images.append(cv2.flip(image_center, 1))
-        measurements.append(-steering_center)
-
         n_count_right += 1
         images.append(image_right)
         measurements.append(steering_right)
@@ -54,8 +50,13 @@ for line in lines[1:]:
         measurements.append(-steering_center)
 
 assert(len(images)==len(measurements))
-print("training data length = {}".format(len(images)))
 print("too left is {} and too right is {}".format(n_count_left, n_count_right))
+# images_len = len(images)
+# for i in range(images_len):
+#     images.append(cv2.flip(images[i], 1))
+#     measurements.append(-measurements[i])
+print("training data length = {}".format(len(images)))
+
 
 augmented_images, augmented_measurement = [], []
 for image,measurement in zip(images, measurements):
