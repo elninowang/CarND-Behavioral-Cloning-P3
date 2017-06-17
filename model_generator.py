@@ -28,7 +28,7 @@ def generator(samples, batch_size=32):
             images = []
             angles = []
             for batch_sample in batch_samples:
-                image_center_path = os.path.join(cddir, line[0])
+                image_center_path = os.path.join(dir, line[0])
                 image_left_path = os.path.join(dir, str.lstrip(line[1]))
                 image_right_path = os.path.join(dir, str.lstrip(line[2]))
 
@@ -103,7 +103,7 @@ model.compile(loss='mse', optimizer='adam')
 
 model.fit_generator(train_generator, samples_per_epoch=len(train_samples), \
                     validation_data=validation_generator, \
-                    nb_val_samples=len(validation_samples), nb_epoch=10)
+                    nb_val_samples=len(validation_samples), nb_epoch=100)
 
 
 print("model.save model.h5")
